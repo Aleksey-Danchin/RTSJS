@@ -1,5 +1,6 @@
 import Layer from './Layer'
 import Figure from './Figure'
+import FileLoader from './FileLoader'
 
 class RTS {
 	constructor (params) {
@@ -22,6 +23,8 @@ class RTS {
 			top: 0,
 			left: 0
 		})
+
+		rts.$fileLoader = new FileLoader()
 	}
 
 	addLayer (name, params) {
@@ -57,5 +60,6 @@ class RTS {
 
 RTS.Layer = Layer
 RTS.Figure = Figure
+RTS.FileLoader = FileLoader
 
 export default RTS

@@ -6,6 +6,8 @@ const rts = new RTS({
 	height: 300
 })
 
+rts.$fileLoader.addImage('')
+
 const layer = rts.getLayer('base')
 const circle = RTS.Figure.getCircle()
 
