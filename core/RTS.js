@@ -1,6 +1,11 @@
 import Layer from './Layer'
 import Figure from './Figure'
 import FileLoader from './FileLoader'
+import Probject from './Probject'
+import Unit from './Unit'
+import World from './World'
+import Selector from './Selector'
+import Camera from './Camera'
 
 class RTS {
 	constructor (params) {
@@ -61,5 +66,20 @@ class RTS {
 RTS.Layer = Layer
 RTS.Figure = Figure
 RTS.FileLoader = FileLoader
+RTS.Probject = Probject
+RTS.Unit = Unit
+RTS.World = World
+RTS.Selector = Selector
+RTS.Camera = Camera
+
+// window.requestAnimationFrame = 
+// 	window.requestAnimationFrame ||
+// 	window.webkitRequestAnimationFrame ||
+// 	window.mozRequestAnimationFrame	||
+// 	window.oRequestAnimationFrame ||
+// 	window.msRequestAnimationFrame ||
+// 	callback => {
+// 		setTimeout(callback, 1000 / 60);
+// 	}
 
 export default RTS

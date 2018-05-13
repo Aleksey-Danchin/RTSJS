@@ -1,0 +1,15 @@
+{
+	"sprite": {
+		"width": 84,
+		"height": 84,
+		"padding": [0, 0, 0, 0],
+		"margin": [0, 0, 0, 0]
+	},
+
+	"actions": {
+		"top": {
+			"frames": [0, 5, 10, 15],
+			"duration": 1000
+		}
+	}
+}
