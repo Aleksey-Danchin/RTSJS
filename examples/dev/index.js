@@ -17,5 +17,6 @@ import RTS from '../../core/RTS'
 	// layer.draw(circle)
 
 	const probject = new RTS.Probject(rts.$fileLoader.getImage('grifon'), rts.$fileLoader.getJson('grifon'))
-	probject.draw(layer.$context, 0, 0, 84, 84, 0, 0, 84, 84)
+	layer.addProbject(probject)
+	// probject.draw(layer.$context, 0, 0, 84, 84, 0, 0, 84, 84)
 })()

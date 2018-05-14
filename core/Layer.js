@@ -2,7 +2,7 @@ class Layer {
 	constructor (params = {}) {
 		const layer = this
 
-		layer.canvases = new Map()
+		layer.$probjects = new Set()
 
 		layer.name = params.name
 
@@ -21,6 +21,29 @@ class Layer {
 		layer.$context = layer.$element.getContext('2d')
 
 		layer.$element.setAttribute('name', layer.name)
+	}
+
+	get probjects () {
+		return Array.from(this.$probjects)
+	}
+
+	addProbject (probject) {
+		const layer = this
+
+		layer.$probjects.add(probject)
+		probject.setLayer(layer)
+		probject.on('frameUpdate', layer.frameUpdateHandler)
+		return true
+	}
+
+	frameUpdateHandler (probject) {
+		const layer = this
+
+		probject.drawFrameByNumber(probject.$frameNumber)
+	}
+
+	drawProbject (probject) {
+		const layer = this
 	}
 
 	draw (func) {

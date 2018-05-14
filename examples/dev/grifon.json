@@ -1,5 +1,5 @@
 {
-	"sprite": {
+	"frame": {
 		"width": 84,
 		"height": 84,
 		"padding": [0, 0, 0, 0],
@@ -7,6 +7,11 @@
 	},
 
 	"actions": {
+		"wait": {
+			"frames": [0, 5, 10, 15],
+			"duration": 1000
+		},
+
 		"top": {
 			"frames": [0, 5, 10, 15],
 			"duration": 1000
