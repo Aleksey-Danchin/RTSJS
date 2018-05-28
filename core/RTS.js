@@ -1,12 +1,16 @@
 import FileLoader from './FileLoader'
 import Layer from './Layer'
 import Probject from './Probject'
+import Selector from './Selector'
+import Mouse from './Mouse'
 
 class RTS {
 	constructor (params) {
 		const rts = this
 
 		rts.$element = document.createElement('div')
+		rts.$element.style.position = 'relative'
+		rts.$element.setAttribute('role', 'root')
 
 		params.root.appendChild(rts.$element)
 	}
@@ -25,5 +29,7 @@ class RTS {
 RTS.FileLoader = FileLoader
 RTS.Layer = Layer
 RTS.Probject = Probject
+RTS.Selector = Selector
+RTS.Mouse = Mouse
 
 export default RTS

@@ -1,13 +1,11 @@
-class Layer {
-	constructor (params) {
+// import Mouse from './Mouse'
+import Canvas from './Canvas'
+
+class Layer extends Canvas {
+	constructor (params) { super(params)
 		const layer = this
 
-		layer.$element = document.createElement('canvas')
-		layer.$context = layer.$element.getContext('2d')
-
-		layer.$element.width = params.width
-		layer.$element.height = params.height
-
+		layer.$element.setAttribute('role', 'layer')
 		layer.$probjects = new Set()
 
 		layer.coordinatesUpdateHandler = layer.coordinatesUpdateHandler.bind(this)

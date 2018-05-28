@@ -13,6 +13,12 @@ import RTS from '../../core/RTS'
 	})
 	rts.$element.appendChild(layer.$element)
 
+	const selector = new RTS.Selector({
+		width: 300,
+		height: 300
+	})
+	rts.$element.appendChild(selector.$element)
+
 	const image = await RTS.FileLoader.loadImage('/examples/dev/grifon.png')
 	const file = await RTS.FileLoader.loadJson('/examples/dev/grifon.json')
 
