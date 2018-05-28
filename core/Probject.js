@@ -1,88 +1,78 @@
 import EventEmitter from 'events'
 
-class SuperProbject extends EventEmitter {
-	constructor (image, json, params = {}) {
-		super()
+class Probject extends EventEmitter {
+	constructor (params) { super()
 		const probject = this
 
-		probject.$image = image
-		probject.$json = json
+		probject.$x = 0
+		probject.$y = 0
 
-		probject.$width = params.width || probject.$json.frame.width
-		probject.$height = params.height || probject.$json.frame.height
-		probject.$x = params.x || 0
-		probject.$y = params.y || 0
+		probject.$image = params.image
+		probject.$file = params.file
 
-		probject.$anchor = {}
-		probject.$anchor.x = 0
-		probject.$anchor.y = 0
+		probject.$action = null
+		probject.$index = 0
+		probject.$order = []
+		probject.action = params.action
 
-		probject.$selectable = true
-		probject.$selected = false
-		probject.$draw = true
+		probject.$interval = setInterval(() => {
+			probject.$index = ++probject.$index % probject.$order.length
+			probject.emit('frameUpdate', probject)
+		}, probject.action.duration / probject.$order.length)
+	}
 
-		probject.$lyaer = null
-		probject.$action = ''
-		probject.$frameNumber = null
-		probject.$frames = []
+	get x () {
+		return this.x
+	}
 
-		// const rowSize = (image.width - json.padding[1] - json.padding[3]) / 
-		// for (let rowIndex = 0; )
+	set x (x) {
+		const probject = this
 
-		probject.action = 'wait'
+		probject.$x = x
+		probject.emit('coordinatesUpdate', probject)
+		return x
+	}
+
+	get y () {
+		return this.y
+	}
+
+	set y (y) {
+		const probject = this
+
+		probject.$y = y
+		probject.emit('coordinatesUpdate', probject)
+		return y
+	}
+
+	get actions () {
+		return Object.keys(this.$file.actions)
+	}
+
+	get frame () {
+		return this.$file.frames[this.$order[this.$index]]
 	}
 
 	get action () {
 		return this.$action
 	}
 
-	set action (action) {
+	set action (actionName) {
 		const probject = this
 
-		if (!probject.$json.actions.hasOwnProperty(action)) {
-			return false
+		for (const action of probject.$file.actions) {
+			if (action.name === actionName) {
+				probject.$action = action
+				probject.$order = action.order
+				probject.$index = probject.$order[0]
+
+				probject.emit('actionUpdate', probject)
+				
+				return actionName
+			}
 		}
 
-		probject.$action = action
-		probject.$frameNumber = 0
-
-		const actionData = probject.$json.actions[action]
-		const timeout = actionData.duration / actionData.frames.length
-
-		if (actionData.frames.length === 1) {
-			// TODO: ???
-			return true
-		}
-
-		probject.$actionInterval = setInterval(() => probject.emit('frameUpdate', this), timeout)
-		return true
-	}
-
-	setLayer (lyaer) {
-		const probject = this
-
-		probject.$lyaer = lyaer
-		return true
-	}
-
-	drawFrameByNumber (context, frameNumber) {
-		const probject = this
-		const frameData = probject.$json.frame
-		const frameXNumber = frameNumber / probject.$json
-
-		// probject.drawFrame(
-		// 	context,
-
-		// 	frameData.padding[1] + 
-
-		// 	frameData.width,
-		// 	frameData.height,
-		// )
-	}
-
-	drawFrame (context, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) {
-		const probject = this
-		context.drawImage(probject.$image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+		return actionName
 	}
 }
 

@@ -7,16 +7,27 @@ import RTS from '../../core/RTS'
 		height: 300
 	})
 
-	rts.$fileLoader.addImage('grifon', '/examples/dev/grifon.png')
-	rts.$fileLoader.addJson('grifon', '/examples/dev/grifon.json')
-	await rts.$fileLoader.load()
+	const layer = new RTS.Layer({
+		width: 300,
+		height: 300
+	})
+	rts.$element.appendChild(layer.$element)
 
-	const layer = rts.getLayer('base')
-	
-	// const circle = RTS.Figure.getCircle()
-	// layer.draw(circle)
+	const image = await RTS.FileLoader.loadImage('/examples/dev/grifon.png')
+	const file = await RTS.FileLoader.loadJson('/examples/dev/grifon.json')
 
-	const probject = new RTS.Probject(rts.$fileLoader.getImage('grifon'), rts.$fileLoader.getJson('grifon'))
-	layer.addProbject(probject)
-	// probject.draw(layer.$context, 0, 0, 84, 84, 0, 0, 84, 84)
+	const probject1 = new RTS.Probject({
+		image, file,
+		action: 'wait'
+	})
+
+	const probject2 = new RTS.Probject({
+		image, file,
+		action: 'wait'
+	})
+
+	probject2.$x = probject2.$y = 50
+
+	layer.addProbject(probject1)
+	layer.addProbject(probject2)
 })()
