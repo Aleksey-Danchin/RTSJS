@@ -3,19 +3,19 @@ import RTS from '../../core/RTS'
 (async () => {
 	const rts = new RTS({
 		root: document.body,
-		width: 300,
-		height: 300
+		width: 900,
+		height: 900
 	})
 
 	const layer = new RTS.Layer({
-		width: 300,
-		height: 300
+		width: 900,
+		height: 900
 	})
 	rts.$element.appendChild(layer.$element)
 
 	const selector = new RTS.Selector({
-		width: 300,
-		height: 300
+		width: 900,
+		height: 900
 	})
 	rts.$element.appendChild(selector.$element)
 

@@ -12,6 +12,12 @@ class Canvas {
 		canvas.$element.style.top = params.top || 0
 		canvas.$element.style.left = params.left || 0
 	}
+
+	clear () {
+		const canvas = this
+
+		canvas.$element.width = canvas.$element.width
+	}
 }
 
 export default Canvas

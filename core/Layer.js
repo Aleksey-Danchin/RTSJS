@@ -17,12 +17,6 @@ class Layer extends Canvas {
 		return Array.from(this.$probjects)
 	}
 
-	clear () {
-		const layer = this
-
-		layer.$element.width = layer.$element.width
-	}
-
 	addProbject (probject) {
 		const layer = this
 
