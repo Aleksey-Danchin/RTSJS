@@ -13,16 +13,19 @@ class Selector extends Canvas {
 		selector.$height = 0
 		selector.$is = false
 
+		selector.$interval = false
+
 		selector.$mouse = new Mouse(selector.$element)
 		
 		selector.$mouse.on('mousemove', () => {
 			if (!selector.$is) {
 				return false
 			}
+
 			selector.$width = selector.$x - selector.$mouse.x
 			selector.$height = selector.$y - selector.$mouse.y
 
-			selector.update()
+			// selector.update()
 		})
 
 		selector.$mouse.on('mousedown', () => {
@@ -33,7 +36,9 @@ class Selector extends Canvas {
 				selector.$y = selector.$mouse.y
 				selector.$width = selector.$height = 0
 				selector.$is = left
-				selector.update()
+
+				selector.start()
+				// selector.update()
 			}
 		})
 
@@ -42,7 +47,9 @@ class Selector extends Canvas {
 
 			if (selector.$is && !left) {
 				selector.$is = left
-				selector.update()
+
+				selector.stop()
+				// selector.update()
 			}
 
 		})
@@ -64,21 +71,43 @@ class Selector extends Canvas {
 		return Math.abs(this.$height)
 	}
 
-	update () {
+	// update () {
+	// 	const selector = this
+	// 	selector.clear()
+
+	// 	if (!selector.$is) {
+	// 		return false
+	// 	}
+
+	// 	const context = selector.$context
+
+	// 	context.fillStyle = 'rgba(120, 120, 120, 0.5)'
+	// 	context.fillRect(selector.x, selector.y, selector.width, selector.height)
+
+	// 	context.stroke = 'rgba(120, 120, 120, 1)'
+	// 	context.strokeRect(selector.x, selector.y, selector.width, selector.height)
+	// }
+
+	start () {
 		const selector = this
-		selector.clear()
-
-		if (!selector.$is) {
-			return false
-		}
-
 		const context = selector.$context
 
-		context.fillStyle = 'rgba(120, 120, 120, 0.5)'
-		context.fillRect(selector.x, selector.y, selector.width, selector.height)
+		selector.$interval = setInterval(() => {
+			selector.clear()
 
-		context.stroke = 'rgba(120, 120, 120, 1)'
-		context.strokeRect(selector.x, selector.y, selector.width, selector.height)
+			context.fillStyle = 'rgba(120, 120, 120, 0.5)'
+			context.fillRect(selector.x, selector.y, selector.width, selector.height)
+
+			context.stroke = 'rgba(120, 120, 120, 1)'
+			context.strokeRect(selector.x, selector.y, selector.width, selector.height)
+		}, 0)
+	}
+
+	stop () {
+		const selector = this
+
+		clearInterval(selector.$interval)
+		selector.clear()
 	}
 }
 
