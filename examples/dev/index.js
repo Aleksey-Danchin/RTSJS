@@ -29,8 +29,6 @@ import RTS from '../../core/RTS'
 	})
 	rts.$element.appendChild(world.$element)
 
-	console.log(world)
-
 	const layer = new RTS.Layer({
 		width: 900,
 		height: 900
@@ -57,4 +55,30 @@ import RTS from '../../core/RTS'
 
 	layer.addProbject(probject1)
 	layer.addProbject(probject2)
+
+	const keyboard = new RTS.Keyboard()
+	setInterval(() => {
+		if (keyboard.arrowRight) {
+			world.$camera.x += 1
+		}
+
+		if (keyboard.arrowLeft) {
+			world.$camera.x -= 1
+		}
+
+		if (keyboard.arrowUp) {
+			world.$camera.y -= 1
+		}
+
+		if (keyboard.arrowDown) {
+			world.$camera.y += 1
+		}
+	})
+	// keyboard.on('keydown', event => {
+	// 	event.preventDefault()
+	// 	console.log(JSON.stringify(keyboard))
+	// 	if (keyboard.arrowRight) {
+	// 		world.$camera.x += 1
+	// 	}
+	// })
 })()

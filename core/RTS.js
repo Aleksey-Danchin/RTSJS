@@ -6,6 +6,7 @@ import Mouse from './Mouse'
 import World from './World'
 import Tileset from './Tileset'
 import Camera from './Camera'
+import Keyboard from './Keyboard'
 
 class RTS {
 	constructor (params) {
@@ -37,5 +38,6 @@ RTS.Mouse = Mouse
 RTS.World = World
 RTS.Tileset = Tileset
 RTS.Camera = Camera
+RTS.Keyboard = Keyboard
 
 export default RTS

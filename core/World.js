@@ -24,14 +24,19 @@ class World extends Canvas {
 		world.$width = params.data.width
 
 		world.$baseImage = null
-		world.baseImageUpdate()
+		world.baseImageUpdate().then(() => {
+			world.cameraUpdateHandler()			
+		})
 
 		world.$camera = new Camera({
-			x: 0,
-			y: 0,
-			width: world.$width,
-			height: world.$height
+			x: 0, y: 0,
+			width: world.$element.width,
+			height: world.$element.height
 		})
+
+		world.cameraUpdateHandler = world.cameraUpdateHandler.bind(world)
+
+		world.$camera.on('update', world.cameraUpdateHandler)
 	}
 
 	get nextobjectid () { return this.$nextobjectid }
@@ -50,6 +55,17 @@ class World extends Canvas {
 	get layers () { return this.$layers }
 	get type () { return this.$type }
 	get width () { return this.$width }
+
+	cameraUpdateHandler () {
+		const world = this
+		const camera = world.$camera
+
+		world.$context.drawImage(
+			world.$baseImage,
+			camera.$x, camera.$y, camera.$width, camera.$height,
+			0, 0, world.$element.width, world.$element.height
+		)
+	}
 
 	baseImageUpdate () {
 		const world = this

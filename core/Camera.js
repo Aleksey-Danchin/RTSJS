@@ -1,7 +1,7 @@
 import EventEmitter from 'events'
 
 class Camera extends EventEmitter {
-	constructor (params) {
+	constructor (params) { super()
 		const camera = this
 
 		camera.$width = params.width
@@ -16,7 +16,7 @@ class Camera extends EventEmitter {
 
 	set width (val) {
 		this.$width = val
-		this.emit('update', camera)
+		this.emit('update', this)
 		return val
 	}
 
@@ -26,7 +26,7 @@ class Camera extends EventEmitter {
 
 	set height (val) {
 		this.$height = val
-		this.emit('update', camera)
+		this.emit('update', this)
 		return val
 	}
 
@@ -35,8 +35,8 @@ class Camera extends EventEmitter {
 	}
 
 	set x (val) {
-		this.$x = val
-		this.emit('update', camera)
+		this.$x = Math.max(val, 0)
+		this.emit('update', this)
 		return val
 	}
 
@@ -45,8 +45,8 @@ class Camera extends EventEmitter {
 	}
 
 	set y (val) {
-		this.$y = val
-		this.emit('update', camera)
+		this.$y = Math.max(val, 0)
+		this.emit('update', this)
 		return val
 	}
 }
