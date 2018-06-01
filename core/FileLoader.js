@@ -12,13 +12,21 @@ class FileLoader {
 	}
 
 	static loadJson (src) {
-		return new Promise(async (resolve, reject) => {
-			const answer = await fetch(src)
-			const json = await answer.json()
+		return getFetchFormat(src, 'json')
+	}
 
-			resolve(json)
-		})
+	static loadText (src) {
+		return getFetchFormat(src, 'text')
 	}
 }
 
 export default FileLoader
+
+function getFetchFormat (src, format) {
+	return new Promise(async (resolve, reject) => {
+		const answer = await fetch(src)
+		const result = answer[format]()
+
+		resolve(result)
+	})
+}

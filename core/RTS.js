@@ -3,6 +3,9 @@ import Layer from './Layer'
 import Probject from './Probject'
 import Selector from './Selector'
 import Mouse from './Mouse'
+import World from './World'
+import Tileset from './Tileset'
+import Camera from './Camera'
 
 class RTS {
 	constructor (params) {
@@ -31,5 +34,8 @@ RTS.Layer = Layer
 RTS.Probject = Probject
 RTS.Selector = Selector
 RTS.Mouse = Mouse
+RTS.World = World
+RTS.Tileset = Tileset
+RTS.Camera = Camera
 
 export default RTS
