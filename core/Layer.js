@@ -1,4 +1,3 @@
-// import Mouse from './Mouse'
 import Canvas from './Canvas'
 
 class Layer extends Canvas {

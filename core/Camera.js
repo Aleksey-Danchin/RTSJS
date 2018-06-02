@@ -8,6 +8,8 @@ class Camera extends EventEmitter {
 		camera.$height = params.height
 		camera.$x = params.x || 0
 		camera.$y = params.y || 0
+		camera.$limitX = params.limitX
+		camera.$limitY = params.limitY
 	}
 
 	get width () {
@@ -35,7 +37,13 @@ class Camera extends EventEmitter {
 	}
 
 	set x (val) {
-		this.$x = Math.max(val, 0)
+		const x = Math.min(Math.max(val, 0), this.$limitX)
+
+		if (x === this.$x) {
+			return val
+		}
+
+		this.$x = x
 		this.emit('update', this)
 		return val
 	}
@@ -45,7 +53,13 @@ class Camera extends EventEmitter {
 	}
 
 	set y (val) {
-		this.$y = Math.max(val, 0)
+		const y = Math.min(Math.max(val, 0), this.$limitY)
+
+		if (y === this.$y) {
+			return val
+		}
+
+		this.$y = y
 		this.emit('update', this)
 		return val
 	}

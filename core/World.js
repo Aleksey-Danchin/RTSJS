@@ -25,7 +25,9 @@ class World extends Canvas {
 
 		world.$baseImage = null
 		world.baseImageUpdate().then(() => {
-			world.cameraUpdateHandler()			
+			world.cameraUpdateHandler()
+			world.$camera.$limitX = world.$baseImage.width - world.$camera.$width
+			world.$camera.$limitY = world.$baseImage.height - world.$camera.$height
 		})
 
 		world.$camera = new Camera({
@@ -102,43 +104,6 @@ class World extends Canvas {
 			world.$baseImage.src = canvas.toDataURL('image/png')
 		})
 	}
-
-	// static async drawLayer (data, name, tileset, tilesetName) {
-	// 	return new Promise((resolve, reject) => {
-	// 		const layerData = data.layers[data.layers.map(layer => layer.name).indexOf(name)]
-	// 		const tilesetData = data.tilesets[data.tilesets.map(tileset => tileset.name).indexOf(tilesetName)]
-
-	// 		const canvas = document.createElement('canvas')
-	// 		const context = canvas.getContext('2d')
-
-	// 		canvas.width = data.width * data.tilewidth
-	// 		canvas.height = data.height * data.tileheight
-
-	// 		for (let rowIndex = 0; rowIndex < layerData.height; rowIndex++) {
-	// 			for (let columnIndex = 0; columnIndex < layerData.width; columnIndex++) {
-	// 				const frameIndex = tilesetData.data[rowIndex * tilesetData.height + columnIndex]
-	// 				const frameXIndex = frameIndex % tilesetData.height
-
-	// 				context.drawImage(
-	// 					tileset,
-	// 					columnIndex * tilesetData.tilewidth,
-	// 					rowIndex * tilesetData.tileheight,
-	// 					tilesetData.tilewidth,
-	// 					tilesetData.tileheight,
-	// 					columnIndex * data.tilewidth,
-	// 					rowIndex * data.tileheight,
-	// 					data.tilewidth,
-	// 					data.tileheight,
-	// 				)
-	// 			}
-	// 		}
-
-	// 		const image = new Image()
-	// 		image.onload = () => resolve(image)
-
-	// 		image.src = canvas.toDataURL('image/png')
-	// 	})
-	// }
 }
 
 export default World
