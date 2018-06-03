@@ -8,6 +8,7 @@ import Tileset from './Tileset'
 import Camera from './Camera'
 import Keyboard from './Keyboard'
 import Manager from './Manager'
+import Unit from './Unit'
 
 class RTS {
 	constructor (params) {
@@ -19,35 +20,32 @@ class RTS {
 
 		params.root.appendChild(rts.$element)
 
-		rts.$fileLoader = new FileLoader()
-		rts.$mouse = null
-		rts.$keyboard = new Keyboard()
+		const size = {
+			width: params.width,
+			height: params.height
+		}
 
-		rts.$world = null
-		rts.$units = null
-		rts.$selector = null
+		rts.$world = new World(size)
+		rts.$element.appendChild(rts.$world.$element)
 
-		initRts(rts, params)
+		rts.$layer = new Layer(size)
+		rts.$element.appendChild(rts.$layer.$element)
+
+		rts.$selector = new Selector(size)
+		rts.$element.appendChild(rts.$selector.$element)
+
+		// rts.$fileLoader = new FileLoader()
+		// rts.$mouse = null
+		// rts.$keyboard = new Keyboard()
+
+		// rts.$world = null
+		// rts.$units = null
+		// rts.$selector = null
 	}
-}
 
-async function initRts (rts, params) {
-	const sources = params.sources || {}
-	const images = sources.images || {}
-	const jsons = sources.jsons || {}
-
-	await Promise.all([
-		...params.sources.images.map(({name, src}) => new Promise(async (resolve, reject) => {
-			const image = await FileLoader.loadImage(src)
-			rts.$fileLoader.$images.set(name, image)
-			resolve()
-		})),
-		...params.sources.jsons.map(({name, src}) => new Promise(async (resolve, reject) => {
-			const json = await FileLoader.loadJson(src)
-			rts.$fileLoader.$jsons.set(name, json)
-			resolve()
-		}))
-	])
+	get world () { return this.$world }
+	get layer () { return this.$layer }
+	get selector () { return this.$selector }
 }
 
 // window.requestAnimationFrame = 
@@ -70,5 +68,6 @@ RTS.Tileset = Tileset
 RTS.Camera = Camera
 RTS.Keyboard = Keyboard
 RTS.Manager = Manager
+RTS.Unit = Unit
 
 export default RTS
