@@ -13,8 +13,11 @@ module.exports = {
 			{
 				test: /\.(png|jpg|gif)$/,
 				use: [{
-					loader: 'file-loader',
+					// loader: 'file-loader',
+					// loader: "url-loader?mimetype=image/png",
+					loader: "url-loader",
 					options: {
+						mimetype: 'image/png',
 						name: '[path][name].[ext]'
 					}
 				}]

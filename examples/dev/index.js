@@ -1,3 +1,4 @@
+import Grifon from './Grifon'
 import RTS from '../../core/RTS'
 
 (async () => {
@@ -25,36 +26,37 @@ import RTS from '../../core/RTS'
 		}
 	})
 
-	const probject1 = new RTS.Probject({
-		image, file,
-		action: 'wait'
-	})
+	const grifon = new Grifon()
 
-	const probject2 = new RTS.Probject({
-		image, file,
-		action: 'wait'
-	})
+	// const probject1 = new RTS.Probject({
+	// 	image, file,
+	// 	action: 'wait'
+	// })
 
-	probject2.$x = probject2.$y = 50
+	// const probject2 = new RTS.Probject({
+	// 	image, file,
+	// 	action: 'wait'
+	// })
 
-	rts.$layer.addProbject(probject1)
-	rts.$layer.addProbject(probject2)
+	// probject2.$x = probject2.$y = 50
 
-	const keyboard = new RTS.Keyboard()
+	// rts.$layer.addProbject(probject1)
+	// rts.$layer.addProbject(probject2)
+
 	setInterval(() => {
-		if (keyboard.arrowRight) {
+		if (rts.$keyboard.arrowRight) {
 			rts.$world.$camera.x += 1
 		}
 
-		if (keyboard.arrowLeft) {
+		if (rts.$keyboard.arrowLeft) {
 			rts.$world.$camera.x -= 1
 		}
 
-		if (keyboard.arrowUp) {
+		if (rts.$keyboard.arrowUp) {
 			rts.$world.$camera.y -= 1
 		}
 
-		if (keyboard.arrowDown) {
+		if (rts.$keyboard.arrowDown) {
 			rts.$world.$camera.y += 1
 		}
 	})

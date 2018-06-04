@@ -1,6 +1,8 @@
 class Unit {
-	constructor () {
+	constructor (params) {
 		const unit = this
+
+		
 	}
 }
 

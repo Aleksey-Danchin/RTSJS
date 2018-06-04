@@ -35,8 +35,8 @@ class RTS {
 		rts.$element.appendChild(rts.$selector.$element)
 
 		// rts.$fileLoader = new FileLoader()
-		// rts.$mouse = null
-		// rts.$keyboard = new Keyboard()
+		rts.$mouse = new Mouse(rts.$element)
+		rts.$keyboard = new Keyboard()
 
 		// rts.$world = null
 		// rts.$units = null
