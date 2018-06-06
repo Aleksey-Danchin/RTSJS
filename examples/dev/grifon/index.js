@@ -1,13 +1,22 @@
-import RTS from '../../core/RTS'
+import RTS from '../../../core/RTS'
+
 import base64 from './grifon.png'
 import file from './grifon.json'
 
 const image = new Image()
 image.src = base64
 
+const PARAMS_DEFAULT = {
+	x: 0, y: 0
+}
+
 class Grifon extends RTS.Unit {
-	constructor (params) { super(params)
+	constructor (args = {}) { super(args)
 		const grifon = this
+		const params = {
+			...PARAMS_DEFAULT,
+			...args
+		}
 
 		grifon.$health = 100
 	}

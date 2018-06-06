@@ -9,6 +9,7 @@ import Camera from './Camera'
 import Keyboard from './Keyboard'
 import Manager from './Manager'
 import Unit from './Unit'
+import UnitsManager from './UnitsManager'
 
 class RTS {
 	constructor (params) {
@@ -26,6 +27,7 @@ class RTS {
 		}
 
 		rts.$world = new World(size)
+		rts.$world.$camera.on('update', () => rts.$unitsManager.underCameraUpdate())
 		rts.$element.appendChild(rts.$world.$element)
 
 		rts.$layer = new Layer(size)
@@ -34,15 +36,26 @@ class RTS {
 		rts.$selector = new Selector(size)
 		rts.$element.appendChild(rts.$selector.$element)
 
-		// rts.$fileLoader = new FileLoader()
 		rts.$mouse = new Mouse(rts.$element)
 		rts.$keyboard = new Keyboard()
 
-		// rts.$world = null
-		// rts.$units = null
-		// rts.$selector = null
+		rts.$unitsManager = new UnitsManager()
+		rts.$unitsManager.underCamera = (x, y, width, height) => {
+			return x >= rts.$world.$camera.$x - width &&
+				x < rts.$world.$camera.$x + rts.$world.$camera.$width &&
+				y >= rts.$world.$camera.$y - height &&
+				y < rts.$world.$camera.$y + rts.$world.$camera.$height
+		}
+		rts.$unitsManager.drawUnit = unit => {
+			unit.draw(rts.$layer.$context, rts.$world.$camera.$x, rts.$world.$camera.$y)
+		}
+		rts.$unitsManager.drawUnits = units => {
+			rts.$layer.clear()
+			units.forEach(unit => unit.$underCamera && rts.$unitsManager.drawUnit(unit))
+		}
 	}
 
+	get um () { return this.$unitsManager }
 	get world () { return this.$world }
 	get layer () { return this.$layer }
 	get selector () { return this.$selector }
@@ -69,5 +82,6 @@ RTS.Camera = Camera
 RTS.Keyboard = Keyboard
 RTS.Manager = Manager
 RTS.Unit = Unit
+RTS.UnitsManager = UnitsManager
 
 export default RTS

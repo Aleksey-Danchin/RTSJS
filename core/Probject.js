@@ -1,24 +1,40 @@
 import EventEmitter from 'events'
 
+const PARAMS_DEFAULT = {
+	x: 0, y: 0
+}
+
 class Probject extends EventEmitter {
-	constructor (params) { super()
+	constructor (args) { super()
 		const probject = this
+		const {x, y} = {
+			...PARAMS_DEFAULT,
+			...args,
+		}
 
-		probject.$x = 0
-		probject.$y = 0
-
-		// probject.$image = params.image
-		// probject.$file = params.file
+		probject.$x = x
+		probject.$y = y
+		probject.$width = 0
+		probject.$height = 0
 
 		probject.$action = null
 		probject.$index = 0
 		probject.$order = []
-		probject.action = params.action
+		probject.$underCamera = false
+	}
 
-		probject.$interval = setInterval(() => {
-			probject.$index = ++probject.$index % probject.$order.length
-			probject.emit('frameUpdate', probject)
-		}, probject.action.duration / probject.$order.length)
+	get underCamera () {
+		return this.$underCamera
+	}
+
+	set underCamera (underCamera) {
+		const probject = this
+
+		if (probject.$underCamera != underCamera) {
+			probject.emit('underCameraUpdate', probject)
+		}
+
+		return probject.$underCamera = underCamera
 	}
 
 	get x () {
@@ -65,8 +81,19 @@ class Probject extends EventEmitter {
 				probject.$action = action
 				probject.$order = action.order
 				probject.$index = probject.$order[0]
+				probject.$width = probject.frame[2]
+				probject.$height = probject.frame[3]
 
 				probject.emit('actionUpdate', probject)
+
+				if (probject.$interval) {
+					clearInterval(probject.$interval)
+				}
+
+				probject.$interval = setInterval(() => {
+					probject.$index = ++probject.$index % probject.$order.length
+					probject.emit('frameUpdate', probject)
+				}, probject.action.duration / probject.$order.length)
 				
 				return actionName
 			}
@@ -81,7 +108,7 @@ class Probject extends EventEmitter {
 		context.drawImage(
 			probject.image,
 			probject.frame[0], probject.frame[1], probject.frame[2], probject.frame[3],
-			probject.$x - dx, probject.$y - dy, probject, probject.frame[2], probject.frame[3]
+			probject.$x - dx, probject.$y - dy, probject.frame[2], probject.frame[3]
 		)
 	}
 }

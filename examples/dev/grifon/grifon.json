@@ -51,7 +51,7 @@
 
 	"actions": [
 		{
-			"name": "wait",
+			"name": "default",
 			"order": [0, 5, 10, 15],
 			"duration": 450
 		},
