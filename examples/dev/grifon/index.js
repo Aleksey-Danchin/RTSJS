@@ -23,6 +23,7 @@ class Grifon extends RTS.Unit {
 }
 
 Grifon.prototype.image = image
-Grifon.prototype.file = file
+Grifon.prototype.actions = file.actions
+Grifon.prototype.actionDefault = file.actionDefault
 
 export default Grifon

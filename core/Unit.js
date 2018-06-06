@@ -8,11 +8,11 @@ class Unit extends Probject {
 		unit.$speed = 1
 		unit.$attack = 0
 
-		unit.action = 'default'
+		// unit.action = 'default'
 	}
 }
 
-Unit.prototype.image = null
-Unit.prototype.file = null
+// Unit.prototype.image = null
+// Unit.prototype.file = null
 
 export default Unit

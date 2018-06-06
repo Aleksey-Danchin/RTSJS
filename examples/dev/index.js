@@ -7,8 +7,8 @@ import RTS from '../../core/RTS'
 
 	const rts = new RTS({
 		root: document.body,
-		width: 900,
-		height: 900
+		width: 2000,
+		height: 2000
 	})
 
 	const tileset = new RTS.Tileset(

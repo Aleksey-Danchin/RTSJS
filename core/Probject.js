@@ -18,9 +18,11 @@ class Probject extends EventEmitter {
 		probject.$height = 0
 
 		probject.$action = null
-		probject.$index = 0
-		probject.$order = []
+		probject.$frameIndex = 0
+		probject.$frames = []
 		probject.$underCamera = false
+
+		probject.action = probject.actionDefault
 	}
 
 	get underCamera () {
@@ -61,12 +63,8 @@ class Probject extends EventEmitter {
 		return y
 	}
 
-	get actions () {
-		return Object.keys(this.file.actions)
-	}
-
 	get frame () {
-		return this.file.frames[this.$order[this.$index]]
+		return this.$frames[this.$frameIndex]
 	}
 
 	get action () {
@@ -76,28 +74,24 @@ class Probject extends EventEmitter {
 	set action (actionName) {
 		const probject = this
 
-		for (const action of probject.file.actions) {
-			if (action.name === actionName) {
-				probject.$action = action
-				probject.$order = action.order
-				probject.$index = probject.$order[0]
-				probject.$width = probject.frame[2]
-				probject.$height = probject.frame[3]
-
-				probject.emit('actionUpdate', probject)
-
-				if (probject.$interval) {
-					clearInterval(probject.$interval)
-				}
-
-				probject.$interval = setInterval(() => {
-					probject.$index = ++probject.$index % probject.$order.length
-					probject.emit('frameUpdate', probject)
-				}, probject.action.duration / probject.$order.length)
-				
-				return actionName
-			}
+		if (!Object.keys(probject.actions).includes(actionName)) {
+			return actionName
 		}
+
+		const action = probject.actions[actionName]
+
+		probject.$action = actionName
+		probject.$frames = action.frames
+		probject.$frameIndex = 0
+		probject.$width = action.width
+		probject.$height = action.height
+
+		if (probject.$timeout) {
+			clearTimeout(probject.$timeout)
+		}
+
+		probject.emit('frameUpdate', probject)
+		probject.$timeout = setTimeout(() => frameUpdateTimeout(probject), probject.frame[4])
 
 		return actionName
 	}
@@ -105,15 +99,24 @@ class Probject extends EventEmitter {
 	draw (context, dx, dy) {
 		const probject = this
 
+		const [sx, sy, scalex, scaley] = probject.frame
+
 		context.drawImage(
 			probject.image,
-			probject.frame[0], probject.frame[1], probject.frame[2], probject.frame[3],
-			probject.$x - dx, probject.$y - dy, probject.frame[2], probject.frame[3]
+			sx, sy, probject.$width, probject.$height,
+			probject.$x - dx, probject.$y - dy, probject.$width, probject.$height
 		)
 	}
 }
 
 Probject.prototype.image = null
-Probject.prototype.file = null
+Probject.prototype.actions = null
+Probject.prototype.actionDefault = null
 
 export default Probject
+
+function frameUpdateTimeout (probject) {
+	probject.$frameIndex = ++probject.$frameIndex % probject.$frames.length
+	probject.emit('frameUpdate', probject)
+	probject.$timeout = setTimeout(() => frameUpdateTimeout(probject), probject.frame[4])
+}

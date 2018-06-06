@@ -46,12 +46,21 @@ class RTS {
 				y >= rts.$world.$camera.$y - height &&
 				y < rts.$world.$camera.$y + rts.$world.$camera.$height
 		}
+
 		rts.$unitsManager.drawUnit = unit => {
 			unit.draw(rts.$layer.$context, rts.$world.$camera.$x, rts.$world.$camera.$y)
 		}
+
 		rts.$unitsManager.drawUnits = units => {
 			rts.$layer.clear()
-			units.forEach(unit => unit.$underCamera && rts.$unitsManager.drawUnit(unit))
+			let n = 0
+			units.forEach(unit => {
+				if (unit.$underCamera) {
+					rts.$unitsManager.drawUnit(unit)
+					n++
+				}
+			})
+			// console.log(n)
 		}
 	}
 
