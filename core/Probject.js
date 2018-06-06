@@ -7,8 +7,8 @@ class Probject extends EventEmitter {
 		probject.$x = 0
 		probject.$y = 0
 
-		probject.$image = params.image
-		probject.$file = params.file
+		// probject.$image = params.image
+		// probject.$file = params.file
 
 		probject.$action = null
 		probject.$index = 0
@@ -46,11 +46,11 @@ class Probject extends EventEmitter {
 	}
 
 	get actions () {
-		return Object.keys(this.$file.actions)
+		return Object.keys(this.file.actions)
 	}
 
 	get frame () {
-		return this.$file.frames[this.$order[this.$index]]
+		return this.file.frames[this.$order[this.$index]]
 	}
 
 	get action () {
@@ -60,7 +60,7 @@ class Probject extends EventEmitter {
 	set action (actionName) {
 		const probject = this
 
-		for (const action of probject.$file.actions) {
+		for (const action of probject.file.actions) {
 			if (action.name === actionName) {
 				probject.$action = action
 				probject.$order = action.order
@@ -74,6 +74,19 @@ class Probject extends EventEmitter {
 
 		return actionName
 	}
+
+	draw (context, dx, dy) {
+		const probject = this
+
+		context.drawImage(
+			probject.image,
+			probject.frame[0], probject.frame[1], probject.frame[2], probject.frame[3],
+			probject.$x - dx, probject.$y - dy, probject, probject.frame[2], probject.frame[3]
+		)
+	}
 }
+
+Probject.prototype.image = null
+Probject.prototype.file = null
 
 export default Probject

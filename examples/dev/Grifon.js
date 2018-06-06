@@ -1,6 +1,6 @@
 import RTS from '../../core/RTS'
 import base64 from './grifon.png'
-import atlas from './grifon.json'
+import file from './grifon.json'
 
 const image = new Image()
 image.src = base64
@@ -14,6 +14,6 @@ class Grifon extends RTS.Unit {
 }
 
 Grifon.prototype.image = image
-Grifon.prototype.atlas = atlas
+Grifon.prototype.file = file
 
 export default Grifon
