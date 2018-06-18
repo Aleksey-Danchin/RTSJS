@@ -15,6 +15,10 @@ import RTS from '../../core2/RTS'
 	const camera = new RTS.Camera(800, 800)
 	const world = await new RTS.World('/examples/dev/world', camera)
 
+	const Grifon = await RTS.Unit('/examples/dev/grifon')
+
+	console.log(new Grifon())
+
 	document.body.appendChild(world.$element)
 
 	console.log(world)
