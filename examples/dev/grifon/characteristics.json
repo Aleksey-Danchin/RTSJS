@@ -1,5 +1,7 @@
 {
 	"hitpoints": 100,
 	"attack": 15,
-	"speed": 10
+	"speed": 10,
+	"action": "move",
+	"direct": "top"
 }

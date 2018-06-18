@@ -52,8 +52,8 @@ class World {
 		if (world.$camera.$isChange) {
 			world.$camera.$isChange = false
 
-			world.$canvas.style.top = parseInt(-world.$camera.$x) + 'px'
-			world.$canvas.style.left = parseInt(-world.$camera.$y) + 'px'
+			world.$canvas.style.top = parseInt(-world.$camera.$y) + 'px'
+			world.$canvas.style.left = parseInt(-world.$camera.$x) + 'px'
 		}
 	}
 

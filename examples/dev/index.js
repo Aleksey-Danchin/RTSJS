@@ -1,15 +1,4 @@
-// import Grifon from './grifon'
 import RTS from '../../core2/RTS'
-
-// window.requestAnimationFrame = 
-// 	window.requestAnimationFrame ||
-// 	window.webkitRequestAnimationFrame ||
-// 	window.mozRequestAnimationFrame	||
-// 	window.oRequestAnimationFrame ||
-// 	window.msRequestAnimationFrame ||
-// 	function (callback) {
-// 		setTimeout(callback, 1000 / 60)
-// 	}
 
 (async () => {
 	const camera = new RTS.Camera(800, 800)
@@ -17,74 +6,46 @@ import RTS from '../../core2/RTS'
 
 	const Grifon = await RTS.Unit('/examples/dev/grifon')
 
-	console.log(new Grifon())
+	const unitCanvas = new RTS.Canvas({
+		width: world.$canvas.width,
+		height: world.$canvas.height
+	})
+
+	const grifon = new Grifon(unitCanvas.$context, camera)
+	grifon.$x = 500
+	grifon.$y = 500
 
 	document.body.appendChild(world.$element)
+	world.$element.appendChild(unitCanvas.$element)
 
-	console.log(world)
-
-	let angle = 0
-	setInterval(() => {
-		angle += 1
-
-		camera.x = world.$canvas.width / 2 + world.$canvas.width / 4 * Math.cos(angle * Math.PI / 180)
-		camera.y = world.$canvas.height / 2 + world.$canvas.height / 4 * Math.sin(angle * Math.PI / 180)
-	}, 0)
-
-
+	let prevTimestamp = 0
 	requestAnimationFrame(frameUpdate)
-	function frameUpdate () {
-		world.frameUpdate()
+	function frameUpdate (timestamp) {
+		const diffTimestamp = timestamp - prevTimestamp
+		prevTimestamp = timestamp
+
+		unitCanvas.$element.style.left = parseInt(-camera.$x) + 'px'
+		unitCanvas.$element.style.top = parseInt(-camera.$y) + 'px'
+
+		world.frameUpdate(diffTimestamp)
+		grifon.frameUpdate(diffTimestamp)
+		RTS.Keyboard.frameUpdate(diffTimestamp)
+
+		if (camera.$isChange) {
+			grifon.$isChange = true
+		}
+
+		if (RTS.Keyboard.arrowRight) camera.x += 5
+		if (RTS.Keyboard.arrowLeft) camera.x -= 5
+		if (RTS.Keyboard.arrowUp) camera.y -= 5
+		if (RTS.Keyboard.arrowDown) camera.y += 5
+
+		if (grifon.$isChange) {
+			unitCanvas.clear()
+			grifon.draw(unitCanvas.$context, camera.$x, camera.$y)
+			grifon.$isChange = false
+		}
 
 		requestAnimationFrame(frameUpdate)
 	}
-
-	// setInterval(() => {
-	// 	world.frameUpdate()
-	// }, 1000/60)
-	// const binomImage = await RTS.FileLoader.loadImage('/examples/dev/binom.png')
-	// const mapData = await RTS.FileLoader.loadJson('/examples/dev/map.json')
-
-	// const rts = new RTS({
-	// 	root: document.body,
-	// 	width: 2000,
-	// 	height: 2000
-	// })
-
-	// const tileset = new RTS.Tileset(
-	// 	binomImage,
-	// 	mapData.tilesets[mapData.tilesets.map(tileset => tileset.name).indexOf('binom')]
-	// )
-
-	// rts.world.init({
-	// 	...mapData,
-	// 	layerTileset: ['base', 'binom'],
-	// 	tilesets: {
-	// 		binom: tileset
-	// 	}
-	// })
-
-	// const grifon1 = new Grifon()
-	// const grifon2 = new Grifon({x: 1000, y: 1000})
-
-	// rts.um.addUnit(grifon1)
-	// rts.um.addUnit(grifon2)
-
-	// setInterval(() => {
-	// 	if (rts.$keyboard.arrowRight) {
-	// 		rts.$world.$camera.x += 2
-	// 	}
-
-	// 	if (rts.$keyboard.arrowLeft) {
-	// 		rts.$world.$camera.x -= 2
-	// 	}
-
-	// 	if (rts.$keyboard.arrowUp) {
-	// 		rts.$world.$camera.y -= 2
-	// 	}
-
-	// 	if (rts.$keyboard.arrowDown) {
-	// 		rts.$world.$camera.y += 2
-	// 	}
-	// })
 })()
