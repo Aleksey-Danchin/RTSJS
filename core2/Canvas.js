@@ -1,5 +1,12 @@
+const PARAMS_DEFAULT = {
+	width: 0,
+	height: 0,
+	left: 0,
+	top: 0
+}
+
 class Canvas {
-	constructor (params) {
+	constructor (params = PARAMS_DEFAULT) {
 		const canvas = this
 
 		canvas.$element = document.createElement('canvas')
